@@ -1,19 +1,19 @@
-import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Item.css";
 
-function Item(item) {
-  //   const item = {
-  //     name: "Milk",
-  //     price: "100NIS",
-  //     img: "https://images.immediate.co.uk/production/volatile/sites/30/2020/02/Glass-and-bottle-of-milk-fe0997a.jpg",
-  //   };
+function Item(items) {
+  const nav = useNavigate();
+  const item = items.props;
+  const handleClick = () => {
+    console.log(item);
+    nav("/item=" + item.name);
+  };
   return (
-    <div className="expense-item">
+    <div className="expense-item" onClick={handleClick}>
       <div>
         <h1>{item.name}</h1>
         <h1>{item.price}</h1>
       </div>
-      {/* <h1>{item.price}</h1> */}
       <img src={item.img} height={100} width={100}></img>
     </div>
   );
