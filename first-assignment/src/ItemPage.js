@@ -9,27 +9,22 @@ function ItemPage(items) {
   const [img1, setImg1] = useState("");
   const [selling, setSelling] = useState("");
   const [desc, setDesc] = useState("");
-  const location = useLocation();
-  const item = location.pathname.split("=")[1];
   const display = () => {
-    const arr = items.props;
-    arr.forEach((element) => {
-      if (element.name == item) {
-        setName(element.name);
-        setPrice(element.price);
-        setImg(element.img);
-        setImg1(element.img1);
-        setSelling(element.selling);
-        setDesc(element.desc);
-      }
-    });
+    const item = items.props;
+    setName(item.name);
+    setPrice(item.price);
+    setImg(item.img);
+    setImg1(item.img1);
+    setSelling(item.selling);
+    setDesc(item.desc);
   };
   const divStyle = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    height: "100vh",
+    height: "70vh",
+    width: "50vw",
     backgroundColor: "gray",
   };
 
@@ -49,7 +44,7 @@ function ItemPage(items) {
   return (
     <div style={divStyle}>
       <h1 style={mystyle}>{name}</h1>
-      <h1>{price}</h1>
+      <h1>{price + " ₪"}</h1>
       <span style={{ padding: "5px" }}>
         <img src={img} height={200} width={200} style={imgStyle} />
         <img src={img1} height={200} width={200} style={imgStyle} />

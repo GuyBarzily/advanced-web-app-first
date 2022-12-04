@@ -6,7 +6,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 function Item(items) {
   const item = items.props;
   const handleClick = () => {
-    items.onClick(item.name);
+    items.onClick(item);
   };
   const handleCurrAdd = () => {
     items.handleAdd(item);

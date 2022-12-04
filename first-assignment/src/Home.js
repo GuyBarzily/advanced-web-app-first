@@ -1,19 +1,20 @@
 import Item from "./Item";
+import React from "react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { Badge, Button } from "@mui/material";
-
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Badge } from "@mui/material";
+import { useState } from "react";
+import ItemModal from "./ItemModal";
 
 function Home(Items) {
   const [itemCount, setItemCount] = useState(0);
   const [shoppingCart, setShoppingCart] = useState([]);
-  const itemsArr = Items.props.sort((a, b) => {
-    return a.name.localeCompare(b.name);
-  });
-  const nav = useNavigate();
-  const navToItem = (name) => {
-    nav("/item=" + name);
+  const [openItem, setOpenItem] = useState(false);
+  const [displayItem, setDisplayItem] = useState("");
+  const handleOpenItem = () => setOpenItem(true);
+  const handleCloseItem = () => setOpenItem(false);
+  const navToItem = (item) => {
+    setDisplayItem(item);
+    setOpenItem(true);
   };
   const handleAdd = (item) => {
     setItemCount(itemCount + 1);
@@ -24,29 +25,13 @@ function Home(Items) {
   };
 
   const handleRemove = (item) => {
-    setItemCount(Math.max(itemCount - 1, 0));
-    console.log(shoppingCart.indexOf(item), "item: ", item);
-    let arr = shoppingCart.splice(shoppingCart.indexOf(item), 1);
-    console.log("arr: ", arr);
-    console.log(arr);
-    setShoppingCart(arr);
-    // for (let i = 0; i < shoppingCart.length; i++) {
-    //   // console.log(shoppingCart[i]);
-    //   // console.log("i", i);
-    //   if (shoppingCart[i].name === item.name) {
-    //     console.log("i", i);
-    //     let arr = shoppingCart.splice(i, 1);
-    //     setShoppingCart(arr);
-    //   }
-    // }
-
-    // shoppingCart.forEach((i) => {
-    //   if (i === item) {
-    //     console.log(shoppingCart.indexOf(item))
-    //     let arr = shoppingCart.splice(shoppingCart.indexOf(item), 1);
-    //     setShoppingCart(arr);
-    //   }
-    // });
+    const index = shoppingCart.indexOf(item);
+    if (index !== -1) {
+      setItemCount(Math.max(itemCount - 1, 0));
+      let arr = [...shoppingCart];
+      arr.splice(index, 1);
+      setShoppingCart(arr);
+    }
   };
 
   return (
@@ -56,24 +41,21 @@ function Home(Items) {
       }}
     >
       <h1 style={{ textAlign: "center" }}>Welcome to our SuperMarket</h1>
-      <Button
-        onClick={() => {
-          console.log(shoppingCart);
-        }}
-      >
-        Press
-      </Button>
+      <ItemModal
+        open={openItem}
+        handleOpen={handleOpenItem}
+        handleClose={handleCloseItem}
+        item={displayItem}
+      />
       <Badge color="secondary" badgeContent={itemCount}>
         <ShoppingCartIcon />{" "}
       </Badge>
-      {itemsArr.map((item) => {
+      {Items.props.map((item) => {
         return (
           <Item
             key={JSON.stringify(item)}
             props={item}
             onClick={navToItem}
-            // setCount={setItemCount}
-            // itemCount={itemCount}
             handleAdd={handleAdd}
             handleRemove={handleRemove}
           ></Item>
