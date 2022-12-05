@@ -4,6 +4,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { Badge } from "@mui/material";
 import { useState } from "react";
 import ItemModal from "./ItemModal";
+import CartModal from "./CartModal";
 
 function Home(Items) {
   const [itemCount, setItemCount] = useState(0);
@@ -33,7 +34,16 @@ function Home(Items) {
       setShoppingCart(arr);
     }
   };
-
+  ///////////////////////////////////////////////////
+  const [openCart, setOpenCart] = useState(false);
+  const [displayCart, setDisplayCart] = useState("");
+  const handleOpenCart = () => setOpenCart(true);
+  const handleCloseCart = () => setOpenCart(false);
+  const navToCart = (arr) => {
+    setDisplayCart(arr)
+    setOpenCart(true)
+  };
+  ///////////////////////////////////////////////////
   return (
     <div
       style={{
@@ -47,8 +57,16 @@ function Home(Items) {
         handleClose={handleCloseItem}
         item={displayItem}
       />
+      <CartModal
+        open={openCart}
+        handleOpen={handleOpenCart}
+        handleClose={handleCloseCart}
+        cart={shoppingCart}
+      />
       <Badge color="secondary" badgeContent={itemCount}>
-        <ShoppingCartIcon />{" "}
+        <ShoppingCartIcon 
+        onClick={navToCart}
+        />{" "}
       </Badge>
       {Items.props.map((item) => {
         return (
