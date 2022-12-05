@@ -53,7 +53,6 @@ function ItemPage(items) {
         <p style={{ textAlign: "center", fontFamily: "Ariel" }}>{desc}</p>
       </div>
       <a href={selling}>Go to store</a>
-      <Link to="/">back</Link>
     </div>
   );
 }

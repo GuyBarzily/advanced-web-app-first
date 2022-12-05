@@ -19,6 +19,7 @@ function Home(Items) {
   };
   const handleAdd = (item) => {
     setItemCount(itemCount + 1);
+    setCartSum(cartSum + item.price);
 
     setShoppingCart((prev) => {
       return [item, ...prev];
@@ -29,6 +30,7 @@ function Home(Items) {
     const index = shoppingCart.indexOf(item);
     if (index !== -1) {
       setItemCount(Math.max(itemCount - 1, 0));
+      setCartSum(cartSum - item.price);
       let arr = [...shoppingCart];
       arr.splice(index, 1);
       setShoppingCart(arr);
@@ -36,12 +38,13 @@ function Home(Items) {
   };
   ///////////////////////////////////////////////////
   const [openCart, setOpenCart] = useState(false);
-  const [displayCart, setDisplayCart] = useState("");
+  // const [displayCart, setDisplayCart] = useState("");
+  const [cartSum, setCartSum] = useState(0);
   const handleOpenCart = () => setOpenCart(true);
   const handleCloseCart = () => setOpenCart(false);
   const navToCart = (arr) => {
-    setDisplayCart(arr)
-    setOpenCart(true)
+    // setDisplayCart(arr);
+    setOpenCart(true);
   };
   ///////////////////////////////////////////////////
   return (
@@ -62,11 +65,10 @@ function Home(Items) {
         handleOpen={handleOpenCart}
         handleClose={handleCloseCart}
         cart={shoppingCart}
+        sum={cartSum}
       />
       <Badge color="secondary" badgeContent={itemCount}>
-        <ShoppingCartIcon 
-        onClick={navToCart}
-        />{" "}
+        <ShoppingCartIcon sx={{ cursor: "pointer" }} onClick={navToCart} />{" "}
       </Badge>
       {Items.props.map((item) => {
         return (
