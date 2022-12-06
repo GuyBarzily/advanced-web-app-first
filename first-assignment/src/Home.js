@@ -18,9 +18,9 @@ function Home(Items) {
     setOpenItem(true);
   };
   const handleAdd = (item) => {
+    const index = shoppingCart.indexOf(item);
     setItemCount(itemCount + 1);
     setCartSum(cartSum + item.price);
-
     setShoppingCart((prev) => {
       return [item, ...prev];
     });
@@ -50,7 +50,8 @@ function Home(Items) {
   return (
     <div
       style={{
-        padding: "2vw",
+        paddingLeft: "2vw",
+        paddingRight: "2vw",
       }}
     >
       <h1 style={{ textAlign: "center" }}>Welcome to our SuperMarket</h1>
@@ -66,9 +67,15 @@ function Home(Items) {
         handleClose={handleCloseCart}
         cart={shoppingCart}
         sum={cartSum}
+        onClick={navToItem}
+        handleRemove={handleRemove}
       />
       <Badge color="secondary" badgeContent={itemCount}>
-        <ShoppingCartIcon sx={{ cursor: "pointer" }} onClick={navToCart} />{" "}
+        <ShoppingCartIcon
+          fontSize="large"
+          sx={{ cursor: "pointer" }}
+          onClick={navToCart}
+        />{" "}
       </Badge>
       {Items.props.map((item) => {
         return (

@@ -1,15 +1,16 @@
+import { Button } from "@mui/material";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import Item from "./Item";
 import { useEffect } from "react";
+import CartItem from "./CartItem";
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "50vw",
-  height: "50vh",
+  width: "60vw",
+  height: "65vh",
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -18,19 +19,38 @@ const style = {
 };
 
 function CartModal(props) {
-  useEffect(() => {
-    console.log(props);
-  }, []);
+  const getRand = () => {
+    return Math.floor(Math.random() * 10000);
+  };
+  const navToItem = (item) => {
+    props.onClick(item);
+    props.handleClose();
+  };
+
+  useEffect(() => {}, [props.cart]);
   return (
     <div>
       <Modal open={props.open} onClose={props.handleClose}>
         <Box component="div" sx={style}>
+          <h2 style={{ textAlign: "center" }}>Your Shopping Cart</h2>
           {props.cart.map((item) => {
-            return <Item key={JSON.stringify(item)} props={item}></Item>;
+            return (
+              <CartItem
+                key={getRand()}
+                props={item}
+                onClick={navToItem}
+                handleRemove={props.handleRemove}
+              ></CartItem>
+            );
           })}
-          <h2 style={{ textAlign: "center" }}>
-            Your Cart Items Total Sum: {props.sum + " ₪"}
-          </h2>
+          <div style={{ display: "flex" }}>
+            <h2>Cart Items Total Sum: {props.sum + " ₪"}</h2>
+            <Button
+              sx={{ paddingLeft: "10vw", color: "black", alignText: "center" }}
+            >
+              Submit
+            </Button>
+          </div>
         </Box>
       </Modal>
     </div>

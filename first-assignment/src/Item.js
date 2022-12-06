@@ -1,7 +1,8 @@
 import "./Item.css";
 import { ButtonGroup, Button } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
+
+import AddShoppingCartOutlinedIcon from "@mui/icons-material/AddShoppingCartOutlined";
+import RemoveShoppingCartOutlinedIcon from "@mui/icons-material/RemoveShoppingCartOutlined";
 
 function Item(items) {
   const item = items.props;
@@ -15,21 +16,29 @@ function Item(items) {
   const handleCurrRemove = () => {
     items.handleRemove(item);
   };
+  const buttonStyle = {
+    color: "white",
+  };
   return (
     <div className="expense-item">
-      <div>
-        <h1>{item.name}</h1> <h1>{item.price + " ₪"}</h1>
-      </div>
-      <img src={item.img} height={100} width={100}></img>
-      <Button onClick={handleClick}>Go to item</Button>
-      <ButtonGroup>
-        <Button onClick={handleCurrRemove}>
+      <h2>{item.name}</h2> <h2>{item.price + " ₪"}</h2>
+      <img
+        style={{ paddingRight: "2vw" }}
+        src={item.img}
+        height={100}
+        width={100}
+      ></img>
+      <Button sx={buttonStyle} onClick={handleClick}>
+        See item
+      </Button>
+      <ButtonGroup sx={{ paddingLeft: "6vw" }}>
+        <Button sx={buttonStyle} onClick={handleCurrRemove}>
           {" "}
-          <RemoveIcon fontSize="small" />
+          <RemoveShoppingCartOutlinedIcon />
         </Button>
-        <Button onClick={handleCurrAdd}>
+        <Button sx={buttonStyle} onClick={handleCurrAdd}>
           {" "}
-          <AddIcon fontSize="small" />
+          <AddShoppingCartOutlinedIcon />
         </Button>
       </ButtonGroup>
     </div>

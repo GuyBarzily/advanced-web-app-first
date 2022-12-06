@@ -68,7 +68,6 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home props={Items} />} />
-        <Route path="/item:handle" element={<ItemPage props={Items} />} />
       </Routes>
     </Router>
   );
