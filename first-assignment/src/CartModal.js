@@ -38,14 +38,15 @@ function CartModal(props) {
       address: address,
       cart: props.cart,
     };
+    setAdress("");
+    setEmail("");
+    setName("");
     const res = await sendCart(cart);
     console.log("cart:", res);
 
     // console.log(name, email, address);
     // console.log(props.cart);
-    setAdress("");
-    setEmail("");
-    setName("");
+
   };
 
   useEffect(() => {
