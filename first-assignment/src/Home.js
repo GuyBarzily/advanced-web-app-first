@@ -1,12 +1,14 @@
 import Item from "./Item";
-import React from "react";
+import React, { useEffect } from "react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { Badge } from "@mui/material";
 import { useState } from "react";
 import ItemModal from "./ItemModal";
 import CartModal from "./CartModal";
+import { getItems } from "./axios";
 
-function Home(Items) {
+function Home() {
+  const [Items, setItems] = useState([]);
   const [itemCount, setItemCount] = useState(0);
   const [shoppingCart, setShoppingCart] = useState([]);
   const [openItem, setOpenItem] = useState(false);
@@ -47,6 +49,15 @@ function Home(Items) {
     setOpenCart(true);
   };
   ///////////////////////////////////////////////////
+  useEffect(() => {
+    // console.log(Items.props);
+    const func = async () => {
+      const res = await getItems();
+      setItems(res.data);
+      console.log(res.data);
+    };
+    func();
+  }, []);
   return (
     <div
       style={{
@@ -77,7 +88,7 @@ function Home(Items) {
           onClick={navToCart}
         />{" "}
       </Badge>
-      {Items.props.map((item) => {
+      {Items.map((item) => {
         return (
           <Item
             key={JSON.stringify(item)}

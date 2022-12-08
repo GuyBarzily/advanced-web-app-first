@@ -1,8 +1,9 @@
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import CartItem from "./CartItem";
+import { sendCart } from "./axios";
 
 const style = {
   position: "absolute",
@@ -19,6 +20,9 @@ const style = {
 };
 
 function CartModal(props) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAdress] = useState("");
   const getRand = () => {
     return Math.floor(Math.random() * 10000);
   };
@@ -27,7 +31,28 @@ function CartModal(props) {
     props.handleClose();
   };
 
-  useEffect(() => {}, [props.cart]);
+  const handleClick = async () => {
+    const cart = {
+      name: name,
+      email: email,
+      address: address,
+      cart: props.cart,
+    };
+    const res = await sendCart(cart);
+    console.log("cart:", res);
+
+    // console.log(name, email, address);
+    // console.log(props.cart);
+    setAdress("");
+    setEmail("");
+    setName("");
+  };
+
+  useEffect(() => {
+    // setAdress("");
+    // setEmail("");
+    // setName("");
+  }, [props.cart]);
   return (
     <div>
       <Modal open={props.open} onClose={props.handleClose}>
@@ -45,12 +70,43 @@ function CartModal(props) {
           })}
           <div style={{ display: "flex" }}>
             <h2>Cart Items Total Sum: {props.sum + " ₪"}</h2>
-            <Button
-              sx={{ paddingLeft: "10vw", color: "black", alignText: "center" }}
-            >
-              Submit
-            </Button>
           </div>
+          <Box
+            component="form"
+            sx={{
+              "& > :not(style)": { m: 1, width: "25ch" },
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            <TextField
+              value={name}
+              id="name"
+              label="Name"
+              variant="outlined"
+              onChange={(e) => setName(e.target.value)}
+            />
+            <TextField
+              value={email}
+              id="email"
+              label="Mail"
+              variant="filled"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <TextField
+              value={address}
+              id="address"
+              label="Adress"
+              variant="standard"
+              onChange={(e) => setAdress(e.target.value)}
+            />
+          </Box>
+          <Button
+            onClick={handleClick}
+            sx={{ paddingLeft: "10vw", color: "black", alignText: "center" }}
+          >
+            Submit
+          </Button>
         </Box>
       </Modal>
     </div>
